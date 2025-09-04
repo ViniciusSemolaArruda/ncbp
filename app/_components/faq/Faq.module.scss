@@ -1,10 +1,12 @@
-// components/Faq/Faq.module.scss
+/* components/Faq/Faq.module.scss */
 
+/* Força o bloco a se comportar como tema claro */
 .faqSection {
+  color-scheme: light; /* <- evita auto-dark em iOS/Safari */
   padding: 4rem 1rem;
   max-width: 800px;
   margin: 0 auto;
-  
+  background: transparent; /* deixe transparente ou defina se quiser um fundo */
 }
 
 .title {
@@ -21,13 +23,17 @@
 }
 
 .item {
-  border: 1px solid #ccc;
+  border: 1px solid #d9e1dc;           /* #ccc estava ficando “pesado” no dark */
   border-radius: 8px;
   overflow: hidden;
   background-color: #f9f9f9;
 }
 
 .question {
+  /* zera estilos nativos p/ evitar auto-dark de botões no iOS */
+  -webkit-appearance: none;
+  appearance: none;
+
   width: 100%;
   padding: 1rem;
   background-color: #e4ede8;
@@ -40,22 +46,53 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background-color .2s ease, color .2s ease;
+
+  &:hover { background-color: #dbe6e0; }
+  &:focus-visible {
+    outline: 2px solid #c9a261;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
 }
 
 .answer {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition: max-height 0.3s ease, padding 0.3s ease, background-color .2s ease;
   padding: 0 1rem;
-  background: white;
+  background: #ffffff;
 
   p {
     margin: 0.5rem 0;
-    color: #333;
+    color: #333333;
   }
 }
 
 .open {
-  max-height: 200px;
+  max-height: 220px; /* pode aumentar se tiver respostas longas */
   padding: 1rem;
+}
+
+/* ====== Overrides no dark mode do sistema (mantém visual claro) ====== */
+@media (prefers-color-scheme: dark) {
+  .faqSection { color-scheme: light; } /* reforça */
+
+  .title { color: #264433; }
+
+  .item {
+    border-color: #d9e1dc;
+    background-color: #f9f9f9;
+  }
+
+  .question {
+    background-color: #e4ede8;
+    color: #264433;
+  }
+
+  .answer {
+    background: #ffffff;
+
+    p { color: #333333; }
+  }
 }
