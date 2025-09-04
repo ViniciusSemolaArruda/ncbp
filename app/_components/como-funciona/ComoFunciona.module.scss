@@ -1,0 +1,66 @@
+/* Cores base */
+$ink: #264433;
+$accent: #c9a261;
+$bg: #f9f9f9;
+
+.section {
+  background: $bg;
+  padding: 80px 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: $ink;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 48px;
+}
+
+.steps {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.step {
+  background: white;
+  padding: 32px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  text-align: left;
+
+  h3 {
+    margin-top: 16px;
+    font-size: 1.2rem;
+    color: $ink;
+  }
+
+  p {
+    margin-top: 8px;
+    font-size: 0.95rem;
+    color: #444;
+  }
+}
+
+.number {
+  background: $accent;
+  color: white;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 50%;
+  font-size: 1rem;
+}

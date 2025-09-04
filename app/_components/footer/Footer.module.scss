@@ -1,0 +1,56 @@
+/* Cores base */
+$ink: #264433;
+$accent: #c9a261;
+
+.footer {
+  background-color: #f6f6f6;
+  color: $ink;
+  padding: 40px 20px;
+  font-size: 14px;
+  border-top: 1px solid #e3e3e3;
+}
+
+.top {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.col {
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.brand {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.linksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  li a {
+    color: $ink;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $accent;
+    }
+  }
+}

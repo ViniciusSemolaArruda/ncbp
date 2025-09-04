@@ -1,0 +1,291 @@
+.headerScope {
+/* Cores base */
+$ink: #264433;   /* cor da letra */
+$accent: #c9a261; /* sublinhado */
+$bg: #ffffff;
+
+/* Dimensões */
+$h: 120px;        /* altura maior do header no desktop */
+$h-mobile: 90px;  /* altura do header no mobile */
+$maxw: 1280px;
+
+/* ===== Header ===== */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: $h;
+  background: $bg;
+  color: $ink;
+  z-index: 80; /* abaixo do overlay/drawer (90/100) */
+  transform: translateY(0);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+
+  @media (max-width: 768px) { height: $h-mobile; }
+}
+
+.headerHidden { transform: translateY(-100%); }
+
+.headerElevated {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  border-bottom-color: transparent;
+}
+
+/* ===== Layout ===== */
+.container {
+  height: 100%;
+  margin: 0 auto;
+  max-width: $maxw;
+  padding: 0 20px;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* logo | espaço | nav/burger */
+  align-items: center;
+  gap: 16px;
+
+  /* Em telas menores: logo à esquerda, hambúrguer à direita */
+  @media (max-width: 900px) {
+    grid-template-columns: auto 1fr auto;
+    justify-content: space-between;
+  }
+}
+
+.brand {
+  position: relative;
+  display: inline-block;
+  width: 320px;
+  height: 90px;
+
+  @media (max-width: 768px) {
+    width: 200px;
+    height: 75px;
+    justify-self: start; /* cola à esquerda */
+  }
+}
+
+/* ===== Nav (desktop) ===== */
+.nav {
+  display: none;
+  justify-content: center;
+  gap: 28px;
+
+  @media (min-width: 900px) { display: flex; }
+}
+
+.navLink {
+  position: relative;
+  display: inline-block;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: $ink;
+  padding: 8px 2px;
+  transition: color 160ms ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -4px;
+    height: 2px;
+    background: $accent;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 180ms ease;
+  }
+
+  &:hover,
+  &:focus-visible { color: $ink; }
+  &:hover::after,
+  &:focus-visible::after { transform: scaleX(1); }
+}
+
+/* Estado ativo no desktop */
+.active {
+  color: $ink;
+}
+.navLink.active::after { transform: scaleX(1); }
+
+/* ===== Hambúrguer (mobile) ===== */
+.burger {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+
+  /* no desktop some */
+  @media (min-width: 900px) { display: none; }
+
+  /* no mobile encosta à direita */
+  justify-self: end;
+
+  /* barras absolutas para alinhamento perfeito */
+  span {
+    position: absolute;
+    left: 10px; right: 10px;
+    height: 2px;
+    background: $ink;
+    border-radius: 2px;
+    transition: transform 220ms ease, opacity 160ms ease, width 160ms ease;
+    will-change: transform, opacity, width;
+  }
+  span:nth-child(1) { top: 14px; }
+  span:nth-child(2) { top: 21px; }
+  span:nth-child(3) { top: 28px; }
+
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+}
+
+.burgerActive {
+  span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  span:nth-child(2) { opacity: 0; width: 0; }
+  span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}
+
+/* ===== Overlay do drawer ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, background 200ms ease;
+  z-index: 90;
+}
+.overlayVisible {
+  opacity: 1;
+  background: rgba(0,0,0,0.35);
+  pointer-events: auto;
+}
+
+/* ===== Drawer (menu mobile) – direita → esquerda ===== */
+.drawer {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100vh;
+  width: min(86vw, 360px);
+  background: #fff;
+  box-shadow: -12px 0 30px rgba(0,0,0,0.12);
+  transform: translateX(100%);
+  transition: transform 260ms cubic-bezier(.2,.8,.2,1);
+  z-index: 100;
+
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+.drawerOpen { transform: translateX(0%); }
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.drawerTitle { font-weight: 600; color: $ink; }
+
+.close {
+  width: 40px; height: 40px;
+  border: 0;
+  background: #f4f4f4;
+  color: $ink;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 160ms ease;
+
+  &:hover { background: #ececec; }
+}
+
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 10px;
+  gap: 6px;
+}
+
+.drawerLink {
+  display: block;
+  padding: 14px 10px;
+  border-radius: 10px;
+  color: $ink;
+  text-decoration: none;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background 140ms ease, color 140ms ease;
+
+  &:hover { background: #f7f7f7; color: $ink; }
+}
+
+/* Estado ativo no drawer mobile */
+.drawerActive {
+  background: #f7f7f7;
+  color: $ink;
+  border-left: 3px solid $accent;
+}
+
+/* ===== Extras do menu mobile: separador, redes e links legais ===== */
+.sep {
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 10px 10px;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 10px 10px;
+}
+
+.socialLink {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $ink;          /* SVG usa currentColor */
+  background: #f4f4f4;
+  transition: background 160ms ease, color 160ms ease;
+
+  &:hover {
+    background: #ececec;
+    color: $accent;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+}
+
+.legalNav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px 12px 10px;
+  gap: 6px;
+}
+
+/* Preferência de usuário: reduz movimentos */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .navLink::after,
+  .burger span,
+  .overlay,
+  .drawer {
+    transition: none !important;
+  }
+}
+}
