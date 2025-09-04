@@ -16,7 +16,8 @@ export default function Hero() {
       <div className={styles.content}>
         <h1>Atendimento psicológico com empatia</h1>
         <p>Cuidados biopsicossociais online, com acolhimento e humanidade.</p>
-        <button>Começar agora</button>
+        {/* use a classe do módulo */}
+        <button className={styles.pulse}>Começar agora</button>
       </div>
     </section>
   );
