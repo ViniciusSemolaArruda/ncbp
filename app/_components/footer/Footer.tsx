@@ -8,7 +8,6 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.top}>
         <div className={styles.col}>
-          <p className={styles.brand}>© 2025 Copyright NCBP</p>
           <p>CNPJ: 00.000.000/0000-00</p>
           <p>Rua Exemplo, 123 - Rio de Janeiro - RJ</p>
           <p>Email: contato@ncbp.com.br</p>
@@ -31,6 +30,10 @@ export default function Footer() {
             </li>
           </ul>
         </div>
+      </div>
+
+      <div className={styles.bottom}>
+        <p>© 2025 Copyright NCBP</p>
       </div>
     </footer>
   );

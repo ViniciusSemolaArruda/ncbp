@@ -5,7 +5,7 @@ $accent: #c9a261;
 .footer {
   background-color: #f6f6f6;
   color: $ink;
-  padding: 40px 20px;
+  padding: 40px 20px 20px;
   font-size: 14px;
   border-top: 1px solid #e3e3e3;
 }
@@ -24,11 +24,6 @@ $accent: #c9a261;
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.brand {
-  font-weight: bold;
-  font-size: 16px;
 }
 
 .label {
@@ -52,5 +47,24 @@ $accent: #c9a261;
     &:hover {
       color: $accent;
     }
+  }
+}
+
+/* Faixa inferior com separador e copyright centralizado */
+.bottom {
+  max-width: 1200px;
+  margin: 24px auto 0;
+  padding-top: 16px;
+  border-top: 1px solid #e3e3e3;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.85; /* leve suavizada */
   }
 }
