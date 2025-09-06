@@ -67,10 +67,9 @@ export default function HeroFiltro({ onSearch, initial, className }: HeroFiltroP
       />
 
       <div className={styles.content}>
-        <h1>Atendimento psicológico com empatia</h1>
+        <h1>Seu cuidado começa aqui</h1>
         <p>
-          Cuidados biopsicossociais online, com acolhimento e humanidade.
-          Encontre o(a) profissional ideal usando os filtros abaixo.
+          Refine por tipo de psicólogo(a), abordagem e público para encontrar quem combina com você.
         </p>
 
         <form className={styles.form} onSubmit={handleSubmit}>
