@@ -2,8 +2,11 @@
 
 import styles from "./Hero.module.scss";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
+  const router = useRouter();
+
   return (
     <section className={styles.hero}>
       <Image
@@ -13,11 +16,18 @@ export default function Hero() {
         priority
         style={{ objectFit: "cover" }}
       />
+
       <div className={styles.content}>
         <h1>Atendimento psicológico com empatia</h1>
         <p>Cuidados biopsicossociais online, com acolhimento e humanidade.</p>
-        {/* use a classe do módulo */}
-        <button className={styles.pulse}>Começar agora</button>
+
+        <button
+          className={styles.pulse}
+          onClick={() => router.push("/filtro")}
+          aria-label="Começar agora: ir para a página de filtros"
+        >
+          Começar agora
+        </button>
       </div>
     </section>
   );

@@ -1,0 +1,117 @@
+/* _components/resultadoBusca/ResultadoBusca.module.scss */
+
+/* Paleta */
+$brand: #264433;
+$gold: #c9a261;
+$white: #ffffff;
+$whats: #25d366;
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  background: $white;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.08);
+  padding: 16px;
+
+  @media (max-width: 680px) { grid-template-columns: 1fr; }
+}
+
+.crp {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Coluna esquerda */
+.left { display: grid; grid-template-rows: 120px auto; gap: 8px; align-content: start; }
+
+.avatar {
+  position: relative; width: 120px; height: 120px;
+  border-radius: 999px; overflow: hidden; background: #f3f4f6;
+  @media (max-width: 680px) { margin: 0 auto; }
+}
+.avatarImg { object-fit: cover; }
+
+.price { margin-top: 4px; font-weight: 800; color: $brand; text-align: center; }
+
+/* Coluna direita */
+.right { display: grid; gap: 10px; }
+.header { display: grid; gap: 4px; }
+.nome { margin: 0; font-size: clamp(1.1rem, 2.4vw, 1.6rem); font-weight: 800; color: $brand; }
+.titulo { color: #6b7280; font-weight: 600; }
+
+/* Chips – agora em brand + gold */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  background: rgba($gold, 0.15);
+  color: $brand;
+  border: 1px solid rgba($gold, 0.45);
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+}
+
+/* Linha Abordagem + Público */
+.lineInfo {
+  display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center;
+  strong { font-weight: 800; color: $brand; }
+  .publico { display: inline-flex; align-items: center; gap: 8px; color: $brand; font-weight: 700; }
+}
+
+/* Sobre mim */
+.sobre { display: grid; gap: 6px; }
+.bio {
+  margin: 0; color: #374151; line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Ações */
+.actionsRow {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  @media (max-width: 680px) { flex-direction: column; align-items: stretch; }
+}
+
+.linkPerfil {
+  color: $brand; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  &:hover { text-decoration: underline; }
+}
+
+.ctaWrap { display: grid; gap: 6px; justify-items: end; @media (max-width: 680px) { justify-items: stretch; } }
+
+.btnWhats {
+  background: $whats; color: #053d1d; border: 2px solid $whats;
+  font-weight: 900; border-radius: 10px; padding: 10px 14px;
+  display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+  &:hover { filter: brightness(1.05); }
+}
+.tel { color: #1f9d54; font-weight: 800; }
+
+/* EMPTY */
+.empty {
+  text-align: center; color: #6b7280; background: #fff;
+  border: 1px dashed #e5e7eb; border-radius: 12px; padding: 24px;
+}
+
+/* SKELETON */
+.skeleton {
+  .avatarSk { width:120px;height:120px;border-radius:999px;background:linear-gradient(90deg,#f0f0f0 25%,#f7f7f7 37%,#f0f0f0 63%);background-size:400% 100%;animation:sk 1.2s infinite; }
+  .priceSk,.lineSk,.chipsSk,.multiSk,.bioSk { height:12px;border-radius:6px;background:linear-gradient(90deg,#f0f0f0 25%,#f7f7f7 37%,#f0f0f0 63%);background-size:400% 100%;animation:sk 1.2s infinite; }
+  .lineSk{ width:60%; } .chipsSk{ width:90%; height:20px; margin-top:8px; } .multiSk{ width:75%; } .bioSk{ width:100%; height:48px; margin-top:8px; }
+}
+@keyframes sk { 0%{background-position:200% 0} 100%{background-position:-200% 0} }

@@ -10,7 +10,7 @@ type NavItem = { href: string; label: string };
 
 const NAV_ITEMS: ReadonlyArray<NavItem> = [
   { href: "/", label: "Como Funciona" },
-  { href: "/about", label: "Quero Começar" },
+  { href: "/filtro", label: "Quero Começar" },
   { href: "/tournament", label: "Sou Psicólogo" },
 ];
 
