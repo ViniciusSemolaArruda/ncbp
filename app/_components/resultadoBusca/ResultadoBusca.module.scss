@@ -12,6 +12,10 @@ $whats: #25d366;
   padding: 16px;
   display: grid;
   gap: 14px;
+
+  /* >>> força aparência clara neste bloco (evita auto-dark de iOS/Android) */
+  color-scheme: light;
+  background: #fff; /* evita que o fundo fique preto no dark mode */
 }
 
 .card {
@@ -55,7 +59,7 @@ $whats: #25d366;
 .nome { margin: 0; font-size: clamp(1.1rem, 2.4vw, 1.6rem); font-weight: 800; color: $brand; }
 .titulo { color: #6b7280; font-weight: 600; }
 
-/* Chips – agora em brand + gold */
+/* Chips – brand + gold */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chip {
   background: rgba($gold, 0.15);
@@ -115,3 +119,14 @@ $whats: #25d366;
   .lineSk{ width:60%; } .chipsSk{ width:90%; height:20px; margin-top:8px; } .multiSk{ width:75%; } .bioSk{ width:100%; height:48px; margin-top:8px; }
 }
 @keyframes sk { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* ---------- Safeguards extras para dark mode ---------- */
+@media (prefers-color-scheme: dark) {
+  .wrap { background: #fff; }               /* mantém o bloco legível */
+  .card { background: #fff; border-color: #e5e7eb; }
+  .nome { color: $brand; }
+  .titulo { color: #475569; }
+  .bio { color: #334155; }
+  .linkPerfil { color: $brand; }
+  .empty { background: #fff; border-color: #e5e7eb; color: #6b7280; }
+}
