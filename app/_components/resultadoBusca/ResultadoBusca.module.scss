@@ -13,9 +13,9 @@ $whats: #25d366;
   display: grid;
   gap: 14px;
 
-  /* >>> força aparência clara neste bloco (evita auto-dark de iOS/Android) */
+  /* evita auto-dark do sistema nesse bloco */
   color-scheme: light;
-  background: #fff; /* evita que o fundo fique preto no dark mode */
+  background: #fff;
 }
 
 .card {
@@ -74,14 +74,28 @@ $whats: #25d366;
 /* Linha Abordagem + Público */
 .lineInfo {
   display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center;
+
+  /* rótulo “Abordagem:” */
   strong { font-weight: 800; color: $brand; }
+
+  /* valor da abordagem e demais textos */
+  & > div { color: #1f2937; } /* cinza-800 para ótima leitura no branco */
+
   .publico { display: inline-flex; align-items: center; gap: 8px; color: $brand; font-weight: 700; }
 }
 
 /* Sobre mim */
-.sobre { display: grid; gap: 6px; }
+.sobre {
+  display: grid; gap: 6px;
+
+  /* rótulo “Sobre mim:” */
+  strong { color: $brand; }
+}
+
 .bio {
-  margin: 0; color: #374151; line-height: 1.6;
+  margin: 0;
+  color: #1f2937;           /* cinza-800 bem legível */
+  line-height: 1.6;
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 
@@ -122,11 +136,15 @@ $whats: #25d366;
 
 /* ---------- Safeguards extras para dark mode ---------- */
 @media (prefers-color-scheme: dark) {
-  .wrap { background: #fff; }               /* mantém o bloco legível */
+  .wrap { background: #fff; }
   .card { background: #fff; border-color: #e5e7eb; }
   .nome { color: $brand; }
   .titulo { color: #475569; }
-  .bio { color: #334155; }
+
+  /* garante contraste também no dark */
+  .lineInfo > div { color: #1f2937; }
+  .bio { color: #1f2937; }
+
   .linkPerfil { color: $brand; }
   .empty { background: #fff; border-color: #e5e7eb; color: #6b7280; }
 }
