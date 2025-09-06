@@ -123,13 +123,9 @@ export default function Beneficios({
   title = "Vantagens de se cadastrar",
   subtitle = "Segurança, visibilidade e suporte para você focar no que importa: o cuidado com as pessoas.",
   items = defaultBenefits,
-  scrollTargetId = "form",
-  ctaText = "Começar cadastro",
+  
 }: BeneficiosProps) {
-  const handleClick = () => {
-    const el = document.getElementById(scrollTargetId);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+ 
 
   return (
     <section className={`${styles.section} ${className ?? ""}`}>
@@ -151,16 +147,7 @@ export default function Beneficios({
           ))}
         </div>
 
-        {/* <div className={styles.actions}>
-          <button
-            type="button"
-            className={`${styles.cta} ${styles.pulse}`}
-            onClick={handleClick}
-            aria-label={`${ctaText}: rolar até o formulário`}
-          >
-            {ctaText}
-          </button>
-        </div> */}
+        
       </div>
     </section>
   );
