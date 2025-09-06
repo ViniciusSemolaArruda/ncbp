@@ -1,0 +1,128 @@
+/* Paleta */
+$brand: #264433;
+$gold:  #c9a261;
+$white: #ffffff;
+
+/* hero full-bleed com máx 600px */
+.hero {
+  position: relative;
+  color-scheme: light;
+
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
+  @supports (width: 100dvw) {
+    width: 100dvw;
+    margin-left: calc(50% - 50dvw);
+    margin-right: calc(50% - 50dvw);
+  }
+
+  height: min(600px, 100svh);
+  height: min(600px, 100dvh);
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* leve escurecimento para o texto destacar */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,.35), rgba(0,0,0,.35));
+    z-index: 1;
+    pointer-events: none;
+  }
+}
+
+/* imagem cobre tudo */
+.bg {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+/* conteúdo centralizado */
+.content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+  max-width: 1100px;
+  padding: clamp(16px, 2vw, 32px) clamp(12px, 2vw, 16px);
+
+  h1 {
+    color: $white;
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0 0 clamp(10px, 1.4vw, 16px);
+    font-size: clamp(1.9rem, 3.8vw, 3rem);
+  }
+
+  p {
+    color: #fffdfa;
+    margin: 0 auto clamp(16px, 1.8vw, 26px);
+    max-width: 920px;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    font-weight: 600;
+  }
+}
+
+/* botão CTA */
+.cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $brand;     /* fundo verde-escuro */
+  color: $gold;           /* texto dourado */
+  border: 2px solid $brand;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter .2s, transform .08s, box-shadow .15s;
+
+  /* acessibilidade */
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(201,162,97,.28); /* anel dourado */
+  }
+
+  &:hover { filter: brightness(1.06); }
+  &:active { transform: translateY(1px); }
+
+  /* ícones dentro do botão herdam a cor do texto */
+  svg, path { color: currentColor; fill: currentColor; }
+}
+/* efeito pulse no botão */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba($brand, 0.55); }   // início com brand
+  70%  { box-shadow: 0 0 0 24px rgba($brand, 0); }   // some até transparente
+  100% { box-shadow: 0 0 0 0 rgba($brand, 0); }
+}
+
+.pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 0 rgba($brand, 0.55);  // cor do anel = brand
+  animation: pulse-ring 1.6s ease-out infinite;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse::after { animation: none; }
+}

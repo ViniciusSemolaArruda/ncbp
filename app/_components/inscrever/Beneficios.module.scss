@@ -1,0 +1,143 @@
+/* Paleta */
+$brand: #264433;
+$gold:  #c9a261;
+$white: #ffffff;
+
+.section {
+  color-scheme: light;   /* mantém aparência legível no dark do celular */
+  background: #fff;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 48px) 16px;
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.header {
+  text-align: center;
+
+  h2 {
+    margin: 0 0 6px;
+    color: $brand;
+    font-weight: 900;
+    font-size: clamp(1.4rem, 3.2vw, 2rem);
+  }
+
+  p {
+    margin: 0 auto;
+    max-width: 820px;
+    color: #475569;
+    font-weight: 600;
+    font-size: clamp(0.98rem, 1.6vw, 1.1rem);
+  }
+}
+
+.grid {
+  display: grid;
+  gap: clamp(12px, 2vw, 18px);
+  grid-template-columns: 1fr;
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1040px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background: $white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: clamp(14px, 1.6vw, 18px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  display: grid;
+  gap: 8px;
+}
+
+.icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba($gold, .18);
+  color: $brand;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.cardTitle {
+  margin: 0;
+  color: $brand;
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+.cardText {
+  margin: 0;
+  color: #334155;
+  line-height: 1.55;
+}
+
+/* CTA */
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.cta {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: $brand;    /* botão verde-escuro */
+  color: $gold;          /* texto dourado */
+  border: 2px solid $brand;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-weight: 800;
+  letter-spacing: .2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter .2s, transform .08s, box-shadow .15s;
+
+  &:hover { filter: brightness(1.06); }
+  &:active { transform: translateY(1px); }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba($gold, .28);
+  }
+}
+
+/* Pulse usando a cor $brand */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba($brand, .55); }
+  70%  { box-shadow: 0 0 0 24px rgba($brand, 0); }
+  100% { box-shadow: 0 0 0 0 rgba($brand, 0); }
+}
+.pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 0 rgba($brand, .55);
+  animation: pulse-ring 1.6s ease-out infinite;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse::after { animation: none; }
+}

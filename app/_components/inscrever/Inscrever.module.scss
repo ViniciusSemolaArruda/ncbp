@@ -1,0 +1,222 @@
+/* Paleta */
+$brand: #264433;
+$gold: #c9a261;
+$white: #ffffff;
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  color-scheme: light;  /* evita auto-dark aqui */
+  margin-top: 20px;
+}
+
+.title {
+  margin: 0 0 6px;
+  color: $brand;
+  font-weight: 800;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+}
+
+.subtitle {
+  margin: 0 0 16px;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.form {
+  background: $white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+  padding: clamp(14px, 1.6vw, 18px);
+
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 860px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field, .fieldFull {
+  display: grid;
+  gap: 6px;
+
+  label {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #111827;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"] {
+    appearance: none;
+    width: 100%;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background: #f7f7f7;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    color: #111827;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+
+    &:focus {
+      border-color: $gold;
+      box-shadow: 0 0 0 4px rgba(201,162,97,.25);
+      background: #fffdfa;
+    }
+  }
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  label {
+    margin: 0;
+  }
+}
+
+.micro {
+  background: transparent;
+  border: 2px solid #e6e6e6;
+  color: #333;
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover { background: #fafafa; }
+}
+
+/* Lista de checkboxes em “pílulas” */
+.checkboxList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  max-height: 260px;
+  overflow: auto;
+  padding-right: 4px; /* respiro pro scrollbar */
+
+  @media (min-width: 640px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (min-width: 1100px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #f7f7f7;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #1f2937;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+
+  input {
+    accent-color: $gold;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: #f2f2f2;
+  }
+}
+
+.on {
+  border-color: rgba(201,162,97,.6);
+  box-shadow: 0 2px 0 rgba(201,162,97,.15);
+  background: #fffdfa;
+}
+
+/* Termos */
+.terms {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 6px;
+}
+
+.termsLabel {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #1f2937;
+
+  input {
+    margin-top: 2px;
+    accent-color: $gold;
+    width: 18px; height: 18px;
+  }
+
+  a {
+    color: $brand;
+    font-weight: 800;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+/* Erros e feedback */
+.err {
+  color: #b91c1c;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.feedback {
+  grid-column: 1 / -1;
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  color: #065f46;
+  font-weight: 800;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+/* Ações */
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.submit {
+  background: $gold;
+  color: $brand;
+  border: 2px solid $gold;
+  border-radius: 12px;
+  padding: 10px 18px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: .2s;
+
+  &:hover { filter: brightness(1.05); }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+}
+
+/* Dark-mode safeguards para manter legibilidade */
+@media (prefers-color-scheme: dark) {
+  .form { background: #fff; border-color: #e5e7eb; }
+  .title { color: $brand; }
+  .subtitle { color: #475569; }
+}
