@@ -4,11 +4,29 @@ $gold: #c9a261;
 $white: #ffffff;
 
 .wrap {
+  position: relative; /* para o pseudo-elemento ficar por trás */
   max-width: 1100px;
   margin: 0 auto;
   padding: 20px 16px;
   color-scheme: light;  /* evita auto-dark aqui */
   margin-top: 20px;
+
+  /* full-bleed branco atrás do componente (cobre a largura da viewport) */
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 50vw);
+    width: 100vw;
+    background: #fff;
+
+    @supports (width: 100dvw) {
+      left: calc(50% - 50dvw);
+      width: 100dvw;
+    }
+  }
 }
 
 .title {
@@ -72,9 +90,7 @@ $white: #ffffff;
   }
 }
 
-.fieldFull {
-  grid-column: 1 / -1;
-}
+.fieldFull { grid-column: 1 / -1; }
 
 .legendRow {
   display: flex;
@@ -82,9 +98,7 @@ $white: #ffffff;
   justify-content: space-between;
   gap: 12px;
 
-  label {
-    margin: 0;
-  }
+  label { margin: 0; }
 }
 
 .micro {
@@ -107,14 +121,10 @@ $white: #ffffff;
   gap: 8px;
   max-height: 260px;
   overflow: auto;
-  padding-right: 4px; /* respiro pro scrollbar */
+  padding-right: 4px;
 
-  @media (min-width: 640px) {
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (min-width: 1100px) {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
+  @media (min-width: 640px) { grid-template-columns: 1fr 1fr; }
+  @media (min-width: 1100px) { grid-template-columns: 1fr 1fr 1fr; }
 }
 
 .check {
@@ -132,13 +142,10 @@ $white: #ffffff;
 
   input {
     accent-color: $gold;
-    width: 18px;
-    height: 18px;
+    width: 18px; height: 18px;
   }
 
-  &:hover {
-    background: #f2f2f2;
-  }
+  &:hover { background: #f2f2f2; }
 }
 
 .on {
@@ -170,7 +177,6 @@ $white: #ffffff;
     color: $brand;
     font-weight: 800;
     text-decoration: none;
-
     &:hover { text-decoration: underline; }
   }
 }
@@ -214,9 +220,11 @@ $white: #ffffff;
   &:disabled { opacity: .6; cursor: not-allowed; }
 }
 
-/* Dark-mode safeguards para manter legibilidade */
+/* Dark-mode safeguards */
 @media (prefers-color-scheme: dark) {
+  .wrap::before { background: #fff; }      /* mantém a faixa branca full-bleed */
   .form { background: #fff; border-color: #e5e7eb; }
+  .check { background: #f7f7f7; }
   .title { color: $brand; }
   .subtitle { color: #475569; }
 }
