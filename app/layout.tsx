@@ -3,8 +3,8 @@ import "./globals.css";
 import SiteChrome from "./_components/SiteChrome";
 
 export const metadata: Metadata = {
-  title: "Meu Site",
-  description: "Descrição do meu site",
+  title: "NCBP",
+  description: "Núcleo de Cuidados Biopsocossociais",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
