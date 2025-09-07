@@ -1,15 +1,58 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// -----------------------------------------------------------------------------
+// Prisma Client
+// -----------------------------------------------------------------------------
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
 }
 
+// -----------------------------------------------------------------------------
+// Datasource (PostgreSQL / Neon)
+// -----------------------------------------------------------------------------
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// Enums
+// -----------------------------------------------------------------------------
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// -----------------------------------------------------------------------------
+// Models
+// -----------------------------------------------------------------------------
+
+/// Inscrições de profissionais (psicólogos) vindas do formulário "Inscrever"
+model PsychologistApplication {
+  id             String             @id @default(cuid())
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+  // Dados pessoais
+  nome           String             @db.VarChar(200)
+  telefone       String?            @db.VarChar(30)
+  email          String             @unique @db.VarChar(320)
+  crp            String             @unique @db.VarChar(20) // Ex.: "00/00000" ou "00/000000"
+
+  // Listas vindas do front (mantidas como arrays para flexibilidade)
+  especialidades String[]           // text[] no Postgres
+  abordagens     String[]           // text[] no Postgres
+
+  // Consentimento
+  aceito         Boolean
+  consentAt      DateTime           @default(now())
+  termsVersion   String?            @db.VarChar(32)
+
+  // Operacional
+  status         ApplicationStatus  @default(PENDING)
+  notes          String?            @db.Text
+  source         String?            @db.VarChar(100) // ex.: "landing:ncbp"
+  ip             String?            @db.Inet        // requer Postgres (ok no Neon)
+
+  @@index([createdAt])
+  @@index([status])
 }

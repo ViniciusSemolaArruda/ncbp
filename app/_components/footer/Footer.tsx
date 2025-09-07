@@ -26,7 +26,7 @@ export default function Footer() {
               <Link href="/contato">Suporte</Link>
             </li>
             <li>
-              <Link href="/admin">Admin</Link>
+              <Link href="/admin/login">Admin</Link>
             </li>
           </ul>
         </div>

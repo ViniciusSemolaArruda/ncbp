@@ -69,12 +69,8 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
   const [telefone, setTelefone] = useState(initial?.telefone ?? "");
   const [email, setEmail] = useState(initial?.email ?? "");
   const [crp, setCrp] = useState(initial?.crp ?? "");
-  const [especialidades, setEspecialidades] = useState<string[]>(
-    initial?.especialidades ?? []
-  );
-  const [abordagens, setAbordagens] = useState<string[]>(
-    initial?.abordagens ?? []
-  );
+  const [especialidades, setEspecialidades] = useState<string[]>(initial?.especialidades ?? []);
+  const [abordagens, setAbordagens] = useState<string[]>(initial?.abordagens ?? []);
   const [aceito, setAceito] = useState<boolean>(!!initial?.aceito);
 
   const [sending, setSending] = useState(false);
@@ -82,7 +78,8 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
   const [errs, setErrs] = useState<Record<string, string>>({});
 
   const toggle =
-    (list: string[], setList: (v: string[]) => void) => (v: string) => {
+    (list: string[], setList: (v: string[]) => void) =>
+    (v: string) => {
       setList(list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
     };
 
@@ -95,19 +92,19 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
     [abordagens]
   );
 
-  const selectAll = (
-    all: boolean,
-    allValues: string[],
-    setList: (v: string[]) => void
-  ) => setList(all ? [] : [...allValues]);
+  const selectAll = (all: boolean, allValues: string[], setList: (v: string[]) => void) =>
+    setList(all ? [] : [...allValues]);
 
   const validate = (): boolean => {
     const e: Record<string, string> = {};
     if (!nome.trim()) e.nome = "Informe seu nome.";
     if (!email.trim()) e.email = "Informe um e-mail válido.";
     if (!crp.trim()) e.crp = "Informe seu CRP.";
-    const crpOk = /^\d{2}\/\d{4,6}$/.test(crp.trim());
-    if (crp && !crpOk) e.crp = "Formato do CRP esperado: 00/00000";
+
+    // mesma regra do backend: 00/00000 ou 00/000000
+    const crpOk = /^\d{2}\/\d{5,6}$/.test(crp.trim());
+    if (crp && !crpOk) e.crp = "Formato do CRP esperado: 00/00000 ou 00/000000";
+
     if (!aceito) e.aceito = "É necessário aceitar os termos.";
     setErrs(e);
     return Object.keys(e).length === 0;
@@ -115,6 +112,7 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
 
   const handleSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
+    if (sending) return; // evita duplo clique
     setOk(null);
     if (!validate()) return;
 
@@ -129,18 +127,19 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
     };
 
     try {
-      setSending(true);
-      await onSubmit?.(payload);
-      setOk("Inscrição enviada com sucesso!");
-    } catch {
-      setOk("Não foi possível enviar agora. Tente novamente.");
-    } finally {
-      setSending(false);
-    }
+  setSending(true);
+  await onSubmit?.(payload);
+  setOk("Inscrição enviada com sucesso! Nossa equipe irá analisar seu cadastro em até 24 horas.");
+} catch (e) {
+  const msg = e instanceof Error ? e.message : "Não foi possível enviar agora. Tente novamente.";
+  setOk(msg);
+} finally {
+  setSending(false);
+}
   };
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} aria-busy={sending}>
       <div className={`${styles.wrap} ${className ?? ""}`}>
         <h2 className={styles.title}>Inscreva-se</h2>
         <p className={styles.subtitle}>
@@ -158,8 +157,14 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
               onChange={(e) => setNome(e.target.value)}
               placeholder="Seu nome completo"
               aria-invalid={!!errs.nome}
+              aria-describedby={errs.nome ? "err-nome" : undefined}
+              required
             />
-            {errs.nome && <span className={styles.err}>{errs.nome}</span>}
+            {errs.nome && (
+              <span id="err-nome" className={styles.err}>
+                {errs.nome}
+              </span>
+            )}
           </div>
 
           {/* Telefone */}
@@ -171,6 +176,7 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
               value={telefone}
               onChange={(e) => setTelefone(e.target.value)}
               placeholder="(11) 99999-0000"
+              autoComplete="tel"
             />
           </div>
 
@@ -184,8 +190,16 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
               onChange={(e) => setEmail(e.target.value)}
               placeholder="voce@exemplo.com"
               aria-invalid={!!errs.email}
+              aria-describedby={errs.email ? "err-email" : undefined}
+              inputMode="email"
+              autoComplete="email"
+              required
             />
-            {errs.email && <span className={styles.err}>{errs.email}</span>}
+            {errs.email && (
+              <span id="err-email" className={styles.err}>
+                {errs.email}
+              </span>
+            )}
           </div>
 
           {/* CRP */}
@@ -196,11 +210,18 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
               type="text"
               value={crp}
               onChange={(e) => setCrp(e.target.value)}
-              placeholder="00/00000"
-              title="Formato: 00/00000"
+              placeholder="00/00000 ou 00/000000"
+              title="Formato: 00/00000 ou 00/000000"
               aria-invalid={!!errs.crp}
+              aria-describedby={errs.crp ? "err-crp" : undefined}
+              inputMode="numeric"
+              required
             />
-            {errs.crp && <span className={styles.err}>{errs.crp}</span>}
+            {errs.crp && (
+              <span id="err-crp" className={styles.err}>
+                {errs.crp}
+              </span>
+            )}
           </div>
 
           {/* Especialidades */}
@@ -210,9 +231,9 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
               <button
                 type="button"
                 className={styles.micro}
-                onClick={() =>
-                  selectAll(allEspSelected, ESPECIALIDADES, setEspecialidades)
-                }
+                onClick={() => selectAll(allEspSelected, ESPECIALIDADES, setEspecialidades)}
+                aria-pressed={allEspSelected}
+                disabled={sending}
               >
                 {allEspSelected ? "Limpar todas" : "Selecionar todas"}
               </button>
@@ -222,18 +243,13 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
                 const id = `esp-${esp}`;
                 const checked = especialidades.includes(esp);
                 return (
-                  <label
-                    key={esp}
-                    htmlFor={id}
-                    className={`${styles.check} ${checked ? styles.on : ""}`}
-                  >
+                  <label key={esp} htmlFor={id} className={`${styles.check} ${checked ? styles.on : ""}`}>
                     <input
                       id={id}
                       type="checkbox"
                       checked={checked}
-                      onChange={() =>
-                        toggle(especialidades, setEspecialidades)(esp)
-                      }
+                      onChange={() => toggle(especialidades, setEspecialidades)(esp)}
+                      disabled={sending}
                     />
                     <span>{esp}</span>
                   </label>
@@ -249,9 +265,9 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
               <button
                 type="button"
                 className={styles.micro}
-                onClick={() =>
-                  selectAll(allAboSelected, ABORDAGENS, setAbordagens)
-                }
+                onClick={() => selectAll(allAboSelected, ABORDAGENS, setAbordagens)}
+                aria-pressed={allAboSelected}
+                disabled={sending}
               >
                 {allAboSelected ? "Limpar todas" : "Selecionar todas"}
               </button>
@@ -261,16 +277,13 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
                 const id = `abo-${abo}`;
                 const checked = abordagens.includes(abo);
                 return (
-                  <label
-                    key={abo}
-                    htmlFor={id}
-                    className={`${styles.check} ${checked ? styles.on : ""}`}
-                  >
+                  <label key={abo} htmlFor={id} className={`${styles.check} ${checked ? styles.on : ""}`}>
                     <input
                       id={id}
                       type="checkbox"
                       checked={checked}
                       onChange={() => toggle(abordagens, setAbordagens)(abo)}
+                      disabled={sending}
                     />
                     <span>{abo}</span>
                   </label>
@@ -287,6 +300,9 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
                 checked={aceito}
                 onChange={(e) => setAceito(e.target.checked)}
                 aria-invalid={!!errs.aceito}
+                aria-describedby={errs.aceito ? "err-aceito" : undefined}
+                disabled={sending}
+                required
               />
               <span>
                 Li os{" "}
@@ -294,17 +310,17 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
                   termos de uso
                 </a>{" "}
                 e a{" "}
-                <a
-                  href="/privacidade"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="/privacidade" target="_blank" rel="noopener noreferrer">
                   política de privacidade
                 </a>{" "}
                 e estou de acordo.
               </span>
             </label>
-            {errs.aceito && <span className={styles.err}>{errs.aceito}</span>}
+            {errs.aceito && (
+              <span id="err-aceito" className={styles.err}>
+                {errs.aceito}
+              </span>
+            )}
           </div>
 
           {/* Ações */}
@@ -314,7 +330,15 @@ export default function Inscrever({ onSubmit, className, initial }: InscreverPro
             </button>
           </div>
 
-          {ok && <div className={styles.feedback}>{ok}</div>}
+          {ok && (
+  <div
+    className={`${styles.feedback} ${
+      ok.includes("24 horas") ? styles["feedback-warning"] : ""
+    }`}
+  >
+    {ok}
+  </div>
+)}
         </form>
       </div>
     </section>

@@ -233,3 +233,20 @@ $white: #ffffff;
   .title { color: $brand; }
   .subtitle { color: #475569; }
 }
+
+.feedback {
+  grid-column: 1 / -1;
+  background: #ecfdf5;
+  border: 1px solid #bbf7d0;
+  color: #065f46;
+  font-weight: 800;
+  border-radius: 12px;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.feedback-warning {
+  background: #fff8e6;
+  border: 1px solid #fcd34d;
+  color: #92400e;
+}
